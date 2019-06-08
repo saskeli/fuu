@@ -5,8 +5,6 @@ import ddf.minim.*;
 
 Moonlander moonlander;
 
-PImage sprite;
-
 int BPM = 107;
 
 void setup() {
