@@ -14,6 +14,10 @@
 			<key row="768" value="6" interpolation="0"/>
 			<key row="896" value="7" interpolation="0"/>
 		</track>
+		<track name="train">
+			<key row="320" value="1" interpolation="1"/>
+			<key row="383" value="64" interpolation="0"/>
+		</track>
 	</tracks>
 	<bookmarks/>
 </sync>

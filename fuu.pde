@@ -65,24 +65,31 @@ void scene1(double time) {
   buildings(time - 32); // buildings start at beat 32
   pole(time);
   grass(90, 90, 60);
+  trafficLight((float) time);
 }
 
+
 void scene2(double time) {
-  background(240, 90, 60);
-  road(time);
-  buildings(time);
-  pole(time);
-  grass(90, 90, 50);
+  float t = (float)time;
+  background(248, 70, 70);
+  road(320);
+  float train = (float) moonlander.getValue("train");
+  train(train, t);
+  trafficLight(t);
 }
 
 void scene3(double time) {
   background(10, 10, 10);
   road(time);
+  trafficLight((float)time);
 }
 
 void scene4(double time) {
   background((float) (time * 8) % 360, 90, 90);
   road(time);
+  buildings(time);
+  pole(time);
+  grass(90, 90, 50);
 }
 
 void scene5(double time) {
@@ -223,4 +230,69 @@ void onepole(float pos, float offset) {
     sphere(2);
     popMatrix();
     popMatrix();
+}
+
+void train(float train, float time) {
+  int x = width * 2 + 300;
+  int tCount = 8;
+  int tWidth = x/tCount - 5;
+  float trainLoc = train * (tWidth + 5);
+  pushMatrix();
+  translate(-width-300, -50);
+  for(int i=0; i < 58; i++) {
+    float pos = trainLoc - i*(tWidth+5);
+    
+    if (pos > -tWidth && pos < 2*tWidth + 2*width) {
+      if(i==0)
+        rect(pos, -40, tWidth, 80, 10, 70, 20, 10);
+      else
+        rect(pos, -40, tWidth, 80, 10);
+    }
+  }
+  popMatrix();
+}
+
+void trafficLight(float time) {
+  if (time < 36)
+    return;
+  float beat = time;
+  if (time >= 40 && time <= 47)
+    time = 40;
+  float beg = 36;
+  float end = 40;
+  if (time > 47) {
+    beg += 7;
+    end += 7;
+  }
+  pushMatrix();
+  noStroke();
+  fill(0);
+  float x1 = map(time, beg, end, -100, -300);
+  float x2 = map(time, beg, end, 100, 200);
+  float y = map(time, beg, end, 2, -220);
+  float w1 = map(time, beg, end, 2, 6);
+  float h = map(time, beg, end, 0, 250);
+  rect(x1, y, w1, h);
+  rect(x2, y, w1, h);
+  rect(x1, y, x2-x1, w1);
+  float w3 = w1*6.5;
+  float x3 = (x1+x2)*0.25;
+  float y3 = y-w3/2;
+  rect(x3, y3, (x2-x1)/4, w3);
+  popMatrix();
+  
+  pushMatrix();
+  int col = (int) map(beat, 40, 47, 0, 122);
+  float x = map(beat, 40, 47.5, 0, 80);
+  fill(col, 83, 92);
+  //translate(0, -103);
+  if (time < 40)
+    circle(x3+w3/2+2, y3+w3/2+1, w3*.8);
+  else if (time < 47)
+    circle(x, -abs(cos(2*beat*PI))*117-103, 29.5);
+  else {
+    fill(112, 83, 92);
+    circle(x3+(x2-x1)/4-w3/2-2, y3+w3/2+1, w3*.8);
+  }
+  popMatrix();
 }
