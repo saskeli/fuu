@@ -65,6 +65,7 @@ void draw() {
     }
 }
 
+
 // scene name goes here
 void scene0(double time) {
   background(0, 0, 5);
@@ -89,6 +90,7 @@ void scene1(double time) {
   trafficLight((float) time);
   sign(time, "killed", 5, true);
   sign(time, "No bugs", 5, false);
+  //kcloud(time);
 }
 
 
@@ -110,6 +112,7 @@ void scene2(double time) {
   train(t);
   trafficLight(t);
 }
+
 
 void scene3(double time) {
   background(10, 10, 10);
@@ -140,6 +143,21 @@ void scene6(double time) {
 void scene7(double time) {
   background(100, 100, 255);
   road(time);
+}
+
+void cloud(double time)
+{
+  pushMatrix();
+  float posX_incr = 50 * (float) time;
+  posX_incr %= 250+width;
+  
+  float n = noise(-250+posX_incr, 50);
+  int scale = 25;
+  rect(-250+posX_incr, 50+scale*n, 150, 40, 80, 80, 20, 20);
+  ellipse(-250+115+posX_incr, 50+scale*n, 50, 50);
+  ellipse(-250+35+posX_incr, 50+scale*n, 50, 50);
+  ellipse(-250+75+posX_incr, 40+scale*n, 50, 50);
+  popMatrix();
 }
 
 void house(double time, int offset, int side, int w, int h, int d) {
