@@ -19,10 +19,13 @@ void setup() {
 }
 
 void draw() {
-    
     moonlander.update();
     translate(width/2, height/2, 0);
     translate(-35, 30, -420);
+
+    ambientLight(0, 0, 75);
+    pointLight(0, 0, 100, 10, 10, 0);
+
     double time = moonlander.getValue("Ouroboros.mp3");
     int scene = moonlander.getIntValue("scene");
     switch(scene) {
@@ -78,17 +81,18 @@ void scene3(double time) {
 }
 
 void scene4(double time) {
-  background(time * 8, 0, 0);
+  background((float) (time * 8) % 360, 90, 90);
   road(time);
 }
 
 void scene5(double time) {
-  background(255, 100, 100);
+  background(0, 0, 0);
   road(time);
+  pole(time);
 }
 
 void scene6(double time) {
-  background(255, 255, 255);
+  background(0, 0, 100);
   road(time); 
 }
 
