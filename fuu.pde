@@ -220,3 +220,25 @@ void onepole(float pos, float offset) {
     popMatrix();
     popMatrix();
 }
+
+void sign(double time, String text, float start) {
+  int dur = 8;
+  if (time < start || time > start + dur) {
+    return;
+  }
+  float depth = map((float)time, start, start + dur, 0, 900);
+  println(depth); 
+  float he = map((float)time, start, start + dur, 0, 30); 
+  float tSize = depth / 9;
+  pushMatrix();
+  fill(0, 0, 0);
+  float tw = textWidth(text);
+  translate(140 + tw / 2, - 3 * tSize / 8 - he, depth - 1.1);
+  box(tw, tSize, 1);
+  noStroke();
+  popMatrix();
+  textFont(font);
+  textSize(tSize);
+  fill(255);
+  text(text, 140, -he, depth);
+}
