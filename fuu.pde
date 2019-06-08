@@ -11,6 +11,7 @@ void setup() {
     frameRate(60);
     size(720, 480, P3D);
     scale(height/1000.0);
+    noCursor();
     
     moonlander = Moonlander.initWithSoundtrack(this, "1003.mp3", BPM, 4);
 
@@ -25,7 +26,7 @@ void draw() {
     translate(0, 50, -450);
     // Get current value of a track
     double value = moonlander.getValue("1003.mp3");
-    road(value);s
+    road(value);
 }
 
 void road(double value) {
@@ -35,7 +36,6 @@ void road(double value) {
     int vofff = (v + 300) % rlen;
     pushMatrix();
     noStroke();
-    noCursor();
     fill(0);
     rotateX(PI/2);
     scale(2.0);
