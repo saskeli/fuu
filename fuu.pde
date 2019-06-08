@@ -5,7 +5,7 @@ import ddf.minim.*;
 
 Moonlander moonlander;
 
-int BPM = 125;
+int BPM = 107;
 
 void setup() {
     frameRate(60);
@@ -13,7 +13,7 @@ void setup() {
     scale(height/1000.0);
     noCursor();
     
-    moonlander = Moonlander.initWithSoundtrack(this, "1003.mp3", BPM, 4);
+    moonlander = Moonlander.initWithSoundtrack(this, "Ouroboros.mp3", BPM, 4);
 
     moonlander.start();
 }
