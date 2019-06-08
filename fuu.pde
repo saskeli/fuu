@@ -5,6 +5,7 @@ import ddf.minim.*;
 
 Moonlander moonlander;
 
+PFont font;
 int BPM = 107;
 
 void setup() {
@@ -13,6 +14,9 @@ void setup() {
     scale(height/1000.0);
     noCursor();
     colorMode(HSB, 360, 100, 100);
+    
+    font = createFont("FiraCode-Medium.ttf", 200);
+    
     moonlander = Moonlander.initWithSoundtrack(this, "Ouroboros.mp3", BPM, 4);
 
     moonlander.start();
@@ -53,11 +57,14 @@ void scene0(double time) {
   road(time);
   // buildings(time);
   pole(time);
-  // grass(0, 150, 0);
+  grass(0, 0, 0);
+  sign(time, "MOI!", 0.5, true);
+  sign(time, "Mitä kuuluu?", 3, false);
 }
 
 void scene1(double time) {
   background(210, 90, 70);
+  println(time);
   road(time);
   buildings(time - 32); // buildings start at beat 32
   pole(time);
@@ -178,12 +185,15 @@ void pole(double value) {
     float p2 = p1 + 400;
     float p3 = p1 + 200;
     float p4 = (p3 + 400) % 800;
+    float p5 = p1 - 400;
+    float p6 = p1 < 200 ? p1 - 200 : p1 - 600;
     int offset = 130;
     onepole(p1, offset);
     onepole(p2, offset);
     onepole(p3, -offset);
     onepole(p4, -offset);
-    
+    onepole(p5, offset);
+    onepole(p6, -offset);
 }
 
 
@@ -202,43 +212,45 @@ void grass(int h, int s, int b) {
 }
 
 void onepole(float pos, float offset) {
-    int bs = offset > 0 ? 12 : -12; 
+    int bs = offset > 0 ? 12 : -12;
     fill(0, 0, 0);
     pushMatrix();
-    translate(offset, -pos / 4, pos);
-    box(3, pos / 2, 3);
+    float hl = pos > 0 ? 0 : -pos;
+    translate(offset, -100 + hl, pos);
+    box(3, 200, 3);
     pushMatrix();
-    translate(- bs/2, -pos / 4, 0); 
+    translate(- bs/2, -100, 0); 
     box(bs, 3, 3);
     popMatrix();
     
     pushMatrix();
     noStroke();
     fill(0, 0, 100);
-    translate(- (4 *  bs / 6), -(pos/4 - 2), 0);
+    translate(- (4 *  bs / 6), -(100 - 2), 0);
     sphere(2);
     popMatrix();
     popMatrix();
 }
 
-void sign(double time, String text, float start) {
-  int dur = 8;
+void sign(double time, String text, float start, boolean right) {
+  int mul = right ? 1 : -1;
+  int dur = 12;
   if (time < start || time > start + dur) {
     return;
   }
-  float depth = map((float)time, start, start + dur, 0, 900);
-  println(depth); 
-  float he = map((float)time, start, start + dur, 0, 30); 
-  float tSize = depth / 9;
+  float depth = map((float)time, start, start + dur, -450, 900);
+  float he = depth < 0 ? map(depth, -450, 0, -120, 0) : map(depth, 0, 900, 0, 30); 
+  float tSize = 50;
   pushMatrix();
   fill(0, 0, 0);
   float tw = textWidth(text);
-  translate(140 + tw / 2, - 3 * tSize / 8 - he, depth - 1.1);
+  translate(mul * (140 + tw / 2), - 3 * tSize / 8 - he, depth - 1.1);
   box(tw, tSize, 1);
   noStroke();
   popMatrix();
   textFont(font);
   textSize(tSize);
-  fill(255);
-  text(text, 140, -he, depth);
+  fill(0, 0, 100);
+  float tpos = right ? 140 : -140 - tw;
+  text(text, tpos, -he, depth);
 }
