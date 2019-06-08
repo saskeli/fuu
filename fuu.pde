@@ -37,7 +37,7 @@ void setup() {
 void draw() {
     moonlander.update();
     translate(width/2, height/2, 0);
-    translate(-35, 50, -90);
+    translate(-35, 50, 45);
 
     ambientLight(0, 0, 75);
     pointLight(0, 0, 100, 10, 10, 0);

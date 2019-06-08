@@ -12,6 +12,8 @@
 			<key row="512" value="4" interpolation="0"/>
 			<key row="704" value="5" interpolation="0"/>
 			<key row="768" value="6" interpolation="0"/>
+			<key row="894" value="7" interpolation="0"/>
+			<key row="895" value="7" interpolation="0"/>
 			<key row="896" value="7" interpolation="0"/>
 		</track>
 		<track name="train">
