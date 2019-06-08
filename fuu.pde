@@ -341,8 +341,9 @@ void sign(double time, String text, float start, boolean right) {
   pushMatrix();
   fill(0, 0, 0);
   float tw = textWidth(text);
+  float pad = textWidth("i");
   translate(mul * (140 + tw / 2), - 3 * tSize / 8 - he, depth - 1.1);
-  box(tw, tSize, 1);
+  box(tw + pad, tSize, 1);
   noStroke();
   popMatrix();
   textFont(font);
