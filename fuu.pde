@@ -12,11 +12,7 @@ void setup() {
     size(720, 480, P3D);
     scale(height/1000.0);
     noCursor();
-<<<<<<< HEAD
     colorMode(HSB, 360, 100, 100);
-    
-=======
->>>>>>> 2978977c23914b17ca338a07295af66a8cde18ae
     moonlander = Moonlander.initWithSoundtrack(this, "Ouroboros.mp3", BPM, 4);
 
     moonlander.start();
@@ -53,30 +49,27 @@ void draw() {
 
 // scene name goes here
 void scene0(double time) {
-  background(180,50,50);
+  background(0, 0, 0);
   road(time);
-<<<<<<< HEAD
-  buildings(time);
-=======
+  // buildings(time);
   pole(time);
-  //grass(0, 150, 0);
->>>>>>> 2978977c23914b17ca338a07295af66a8cde18ae
+  // grass(0, 150, 0);
 }
 
 void scene1(double time) {
-  background(200, 255, 100);
+  background(210, 90, 70);
   road(time);
-<<<<<<< HEAD
-  buildings(time);
-=======
+  buildings(time - 32); // buildings start at beat 32
   pole(time);
-  grass(0, 150, 0);
->>>>>>> 2978977c23914b17ca338a07295af66a8cde18ae
+  grass(90, 90, 60);
 }
 
 void scene2(double time) {
-  background(100, 100, (int) time * 3);
+  background(240, 90, 60);
   road(time);
+  buildings(time);
+  pole(time);
+  grass(90, 90, 50);
 }
 
 void scene3(double time) {
@@ -85,7 +78,7 @@ void scene3(double time) {
 }
 
 void scene4(double time) {
-  background((int) time * 2, (int) time * 2, (int) time * 2);
+  background(time * 8, 0, 0);
   road(time);
 }
 
@@ -124,16 +117,23 @@ void house(double time, int offset, int side, int w, int h, int d) {
   scale(2);
   translate(xPos + (side*w*bSize), (-h * bSize) / 2, v);
   noFill();
-  stroke(0, 100, 100);
-  // fill(0, 0, 50);
+  stroke(0, 0, 0);
+  fill(0, 0, 50);
   box(w * bSize, h * bSize, d * bSize);
   popMatrix();
 }
 
 void buildings(double time) {
-  house(time, 0, -1, 100, 200, 100);
-  house(time, -4, -1, 80, 180, 80);
-  house(time, -2, 1, 100, 200, 100);
+  house(time, 0, -1, 240, 600, 100);
+  house(time, -4, -1, 200, 550, 80);
+  house(time, -2, -1, 240, 600, 100);
+  house(time, -8, -1, 240, 550, 100);
+  
+  house(time, -1, 1, 240, 600, 100);
+  house(time, -3, 1, 240, 550, 80);
+  house(time, -7, 1, 240, 600, 100);
+  house(time, -9, 1, 240, 600, 100);
+  house(time, -11 , 1, 240, 600, 80);
 }
 
 void road(double value) {
@@ -187,7 +187,7 @@ void pole(double value) {
 }
 
 
-void grass(int r, int g, int b) {
+void grass(int h, int s, int b) {
     int w = 400;
     int offset = 52; 
     pushMatrix();
@@ -195,7 +195,7 @@ void grass(int r, int g, int b) {
     fill(0);
     rotateX(PI/2);
     scale(2.0);
-    fill(r, g, b);
+    fill(h, s, b);
     rect(offset, 0, w, 800);
     rect(-(w + offset), 0, w, 800);
     popMatrix();
@@ -203,7 +203,7 @@ void grass(int r, int g, int b) {
 
 void onepole(float pos, float offset) {
     int bs = offset > 0 ? 12 : -12; 
-    fill(0);
+    fill(0, 0, 0);
     pushMatrix();
     translate(offset, -pos / 4, pos);
     box(3, pos / 2, 3);
@@ -211,8 +211,10 @@ void onepole(float pos, float offset) {
     translate(- bs/2, -pos / 4, 0); 
     box(bs, 3, 3);
     popMatrix();
+    
     pushMatrix();
-    fill(255);
+    noStroke();
+    fill(0, 0, 100);
     translate(- (4 *  bs / 6), -(pos/4 - 2), 0);
     sphere(2);
     popMatrix();
