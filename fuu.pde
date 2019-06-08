@@ -114,9 +114,43 @@ void scene2(double time) {
 
 void scene3(double time) {
   background(10, 10, 10);
-  ambientLight(0, 0, 100);
+  // ambientLight(0, 0, 100);
+  pointLight(0, 0, 100, 0, 0, 0);
   rainbow_road(time, 48);
   trafficLight((float)time);
+  
+  int failCubeNumber = moonlander.getIntValue("failCubeNumber");
+  int textCue = moonlander.getIntValue("textCue");
+    
+  pushMatrix();
+  stroke(90, 100, 100);
+  
+  textFont(font);
+  textSize(48);
+  fill(0, 0, 100);
+  
+  if (textCue >= 0 && textCue < 3) text("And now", -500, -350, 100);
+  if (textCue >= 1 && textCue < 3) text("Some failed attempts", -500, -280, 100);
+  if (textCue >= 2 && textCue < 3) text("at rendering cubes", -500, -210, 100);
+  if (textCue == 3) text("FailCube #" + failCubeNumber, -500, -200, 150);
+  // if (textCue == 0) text("Here are some failed attempts at rendering cubes", -500, -200, 100);
+  // if (textCue == 0) text("Here are some failed attempts at rendering cubes", -500, -200, 100);
+  
+  
+  for (int i=0; i<5; i++) {
+    translate(noise(i, (float) time), -100, i*50);
+    rotateX((float) time + (i*PI /5));
+    rotateY((float) time + (i*PI /5));
+    rotateZ((float) time + (i*PI /5));
+    if (failCubeNumber == 0) failCube0();
+    else if (failCubeNumber == 1) failCube1();
+    else if (failCubeNumber == 2) failCube2();
+    else if (failCubeNumber == 3) failCube3();
+    else if (failCubeNumber == 4) failCube4();
+  // else if (failCubeNumber == 5) failCube5();
+  }
+  
+  popMatrix();
 }
 
 void scene4(double time) {
@@ -492,4 +526,119 @@ void trafficLight(float time) {
     circle(x3+(x2-x1)/4-w3/2-2, y3+w3/2+1, w3*.8);
   }
   popMatrix();
+}
+
+/*
+FAILCUBES!
+*/
+void failCube0() {
+    beginShape();
+    vertex(0, 0, 0);
+    vertex(50, 0, 0);
+    vertex(0, 50, 0);
+    vertex(0, 0, 50);
+    
+    vertex(50, 50, 0);
+    vertex(0, 50, 50);
+    vertex(50, 0, 50);
+    
+    vertex(50, 50, 50);
+    endShape();
+}
+
+
+void failCube1() {
+    beginShape();
+    vertex(0, 0, 0);
+    vertex(50, 0, 0);
+    vertex(0, 50, 0);
+    vertex(50, 50, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(0, 0, 50);
+    vertex(0, 50, 50);
+    endShape();
+}
+void failCube3() {
+    beginShape(QUAD);
+    vertex(0, 0, 0);
+    vertex(50, 0, 0);
+    vertex(50, 50, 0);
+    vertex(0, 50, 0);
+    vertex(0, 0, 0);
+
+    vertex(50, 0, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(50, 50, 0);
+
+    vertex(50, 0, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(50, 50, 0);
+
+    vertex(50, 50, 0);
+    vertex(50, 50, 50);
+    vertex(0, 50, 50);
+    vertex(0, 50, 0);
+
+    vertex(0, 0, 0);
+    vertex(0, 0, 50);
+    vertex(0, 50, 50);
+    vertex(0, 50, 0);
+
+    vertex(0, 0, 50);
+    vertex(0, 50, 50);
+    vertex(50, 50, 50);
+    vertex(50, 0, 50);
+
+    endShape();
+}
+void failCube2() {
+    beginShape();
+    vertex(0, 0, 0);
+    vertex(50, 0, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(50, 50, 0);
+    vertex(0, 50, 0);
+    vertex(0, 50, 50);
+    vertex(0, 0, 50);
+    
+    endShape();
+}
+
+void failCube4() {
+   beginShape(QUAD);
+    vertex(0, 0, 0);
+    vertex(50, 0, 0);
+    vertex(50, 50, 0);
+    vertex(0, 50, 0);
+
+    vertex(50, 0, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(50, 50, 0);
+
+    vertex(50, 0, 0);
+    vertex(50, 0, 50);
+    vertex(50, 50, 50);
+    vertex(50, 50, 0);
+
+    vertex(50, 50, 0);
+    vertex(50, 50, 50);
+    vertex(0, 50, 50);
+    vertex(0, 50, 0);
+
+    vertex(0, 0, 0);
+    vertex(0, 0, 50);
+    vertex(0, 50, 50);
+    vertex(0, 50, 0);
+
+    vertex(0, 0, 50);
+    vertex(0, 50, 50);
+    vertex(50, 50, 50);
+    vertex(50, 0, 50);
+
+    endShape();
 }
