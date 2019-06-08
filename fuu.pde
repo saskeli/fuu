@@ -16,8 +16,9 @@ int center_hue_counter = 2;
 
 void setup() {
     frameRate(60);
-    size(720, 480, P3D);
+    //size(720, 480, P3D);
     scale(height/1000.0);
+    fullScreen(P3D);
     noCursor();
     colorMode(HSB, 360, 100, 100);
     
@@ -36,7 +37,7 @@ void setup() {
 void draw() {
     moonlander.update();
     translate(width/2, height/2, 0);
-    translate(-35, 30, -420);
+    translate(-35, 50, -90);
 
     ambientLight(0, 0, 75);
     pointLight(0, 0, 100, 10, 10, 0);
