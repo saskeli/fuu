@@ -4,6 +4,16 @@
 			<key row="0" value="0" interpolation="1"/>
 			<key row="1200" value="150" interpolation="0"/>
 		</track>
+		<track name="scene">
+			<key row="0" value="0" interpolation="0"/>
+			<key row="128" value="1" interpolation="0"/>
+			<key row="320" value="2" interpolation="0"/>
+			<key row="384" value="3" interpolation="0"/>
+			<key row="512" value="4" interpolation="0"/>
+			<key row="704" value="5" interpolation="0"/>
+			<key row="768" value="6" interpolation="0"/>
+			<key row="896" value="7" interpolation="0"/>
+		</track>
 	</tracks>
 	<bookmarks/>
 </sync>

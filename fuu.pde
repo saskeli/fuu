@@ -21,13 +21,76 @@ void setup() {
 void draw() {
     
     moonlander.update();
-    background(255, 100, 100);
     translate(width/2, height/2, 0);
     translate(0, 50, -450);
     // Get current value of a track
-    double value = moonlander.getValue("1003.mp3");
-    road(value);
+    
+    double time = moonlander.getValue("1003.mp3");
+    int scene = moonlander.getIntValue("scene");
+    switch(scene) {
+      case 0: scene0(time);
+        break;
+      case 1: scene1(time);
+        break;
+      case 2: scene2(time);
+        break;
+      case 3: scene3(time);
+        break;
+      case 4: scene4(time);
+        break;
+      case 5: scene5(time);
+        break;
+      case 6: scene6(time);
+        break;
+      case 7: scene7(time);
+        break;
+      default:
+        break;
+    }
 }
+
+// scene name goes here
+void scene0(double time) {
+  background(0, 0, 0);
+  road(time);
+}
+
+void scene1(double time) {
+  background(255, 255, 100);
+  road(time);
+}
+
+void scene2(double time) {
+  background(100, 100, (int) time * 3);
+  road(time);
+}
+
+void scene3(double time) {
+  background(10, 10, 10);
+  road(time);
+}
+
+void scene4(double time) {
+  background((int) time * 2, (int) time * 2, (int) time * 2);
+  road(time);
+}
+
+void scene5(double time) {
+  background(255, 100, 100);
+  road(time);
+}
+
+void scene6(double time) {
+  background(255, 255, 255);
+  road(time); 
+}
+
+void scene7(double time) {
+  background(100, 100, 255);
+  road(time);
+}
+
+
 
 void road(double value) {
     int rlen = 450;
