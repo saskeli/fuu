@@ -12,6 +12,7 @@ void setup() {
     size(720, 480, P3D);
     scale(height/1000.0);
     noCursor();
+    colorMode(HSB, 360, 100, 100);
     
     moonlander = Moonlander.initWithSoundtrack(this, "Ouroboros.mp3", BPM, 4);
 
@@ -51,13 +52,15 @@ void draw() {
 
 // scene name goes here
 void scene0(double time) {
-  background(0, 0, 0);
+  background(180,50,50);
   road(time);
+  buildings(time);
 }
 
 void scene1(double time) {
-  background(255, 255, 100);
+  background(200, 255, 100);
   road(time);
+  buildings(time);
 }
 
 void scene2(double time) {
@@ -90,7 +93,37 @@ void scene7(double time) {
   road(time);
 }
 
+void house(double time, int offset, int side, int w, int h, int d) {
+  int len = 400;
+  int start = -50;
+  int loop = 12;
+  
+  double x = time + (double) offset;
+  
+  if (x < 0) {
+    return;
+  }
+  
+  float v = map((float) x % loop, 0.0, loop, start, (float) len);
+  float bSize = map((float) x % loop, 0, loop, 0.0, 1);
+  
+  int xPos = side * 120;
+  
+  pushMatrix();
+  scale(2);
+  translate(xPos + (side*w*bSize), (-h * bSize) / 2, v);
+  noFill();
+  stroke(0, 100, 100);
+  // fill(0, 0, 50);
+  box(w * bSize, h * bSize, d * bSize);
+  popMatrix();
+}
 
+void buildings(double time) {
+  house(time, 0, -1, 100, 200, 100);
+  house(time, -4, -1, 80, 180, 80);
+  house(time, -2, 1, 100, 200, 100);
+}
 
 void road(double value) {
     int rlen = 450;
