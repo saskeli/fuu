@@ -19,7 +19,6 @@ void setup() {
 }
 
 void draw() {
-    
     moonlander.update();
     translate(width/2, height/2, 0);
     translate(0, 50, -450);
@@ -60,9 +59,14 @@ void scene1(double time) {
   road(time);
 }
 
+
 void scene2(double time) {
+  float t = (float)time;
   background(100, 100, (int) time * 3);
   road(time);
+  float train = (float) moonlander.getValue("train");
+  train(train, t);
+  ball(t);
 }
 
 void scene3(double time) {
@@ -119,4 +123,28 @@ void road(double value) {
     rect(-2, vofff, 4, 16);
     
     popMatrix();
+}
+
+void train(float train, float time) {
+  int x = width * 2 + 300;
+  int tCount = 8;
+  int tWidth = x/tCount - 5;
+  float trainLoc = train * (tWidth + 5);
+  pushMatrix();
+  translate(-width-300, -50);
+  for(int i=0; i < 58; i++) {
+    float pos = trainLoc - i*(tWidth+5);
+    
+    if (pos > -tWidth && pos < tWidth + 2*width)
+      rect(pos, -40, tWidth, 80, 10);
+  }
+  popMatrix();
+}
+
+void ball(float time) {
+  
+  pushMatrix();
+  translate(0, -100);
+  circle(0, -abs(cos(2*time*PI))*150, 30);
+  popMatrix();
 }
