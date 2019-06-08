@@ -78,7 +78,7 @@ void scene3(double time) {
 }
 
 void scene4(double time) {
-  background(time * 8, 0, 0);
+  background((float)time * 8, 0, 0);
   road(time);
 }
 
