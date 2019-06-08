@@ -192,16 +192,39 @@ void scene5(double time) {
   translate(0, 85, 1500);
   cloud(time, 100, true);
   popMatrix();
+  sign(time, "Music:", 86, false);
+  sign(time, "Ouroboros", 86, true);
+  sign(time, "By Kevin", 88.5, false);
+  sign(time, "MacLeod", 88.5, true);
+  sign(time, "Font:", 91, false);
+  sign(time, "FiraCode", 91, true);
+  sign(time, "Graffathon", 93.5, false);
+  sign(time, "JesJes!", 93.5, true);
+  sign(time, "Greetz!", 96, false);
+  sign(time, "Team", 98.5, false);
+  sign(time, "Gurula", 98.5, true);
 }
 
 void scene6(double time) {
-  background(0, 0, 100);
+  background(0, 70, 90);
   road(time); 
+  sign(time, "Music:", 86, false);
+  sign(time, "Ouroboros", 86, true);
+  sign(time, "By Kevin", 88.5, false);
+  sign(time, "MacLeod", 88.5, true);
+  sign(time, "Font:", 91, false);
+  sign(time, "FiraCode", 91, true);
+  sign(time, "Graffathon", 93.5, false);
+  sign(time, "JesJes!", 93.5, true);
+  sign(time, "Greetz!", 96, false);
+  sign(time, "Team", 98.5, false);
+  sign(time, "Gurula", 98.5, true);
+  sign(time, "KTHXBY", 101, false);
+  sign(time, "beep beep", 103.5, true);
 }
 
 void scene7(double time) {
-  background(100, 100, 255);
-  road(time);
+  exit();
 }
 
 void cloud(double time, int light, boolean legs)
