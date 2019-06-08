@@ -10,6 +10,9 @@ int BPM = 107;
 
 int[] rainbow_l = new int[9];
 int[] rainbow_r = new int[9];
+int p_skip = 0;
+int center_hue = (int)random(0, 361);
+int center_hue_counter = 2;
 
 void setup() {
     frameRate(60);
@@ -110,6 +113,7 @@ void scene2(double time) {
 
 void scene3(double time) {
   background(10, 10, 10);
+  ambientLight(0, 0, 100);
   rainbow_road(time, 48);
   trafficLight((float)time);
 }
@@ -215,9 +219,21 @@ void road(double value) {
     popMatrix();
 }
 
-void rainbow_road(double value, float start) {
+void rainbow_road(double value, int start) {
     int rlen = 400;
     int delta = rlen / 4;
+    int i_skip = 8 - (((int)value * 4 - start) % 8);
+    if (i_skip != p_skip) {
+      for (int i = 0; i < 9; i++) {
+        rainbow_r[i] = (int)random(0, 361);
+        rainbow_l[i] = (int)random(0, 361);
+      }
+      if (center_hue_counter == 0) {
+        center_hue = (int)random(0, 361);
+      }
+      center_hue_counter = (center_hue_counter + 1) % 4;
+      p_skip = i_skip;
+    }
     int v1 = (int)map((float)(value - (int)value), 0.0, 1.0, 0.0, rlen);
     int v2 = (v1 + 100) % rlen;
     int v3 = (v1 + 200) % rlen;
@@ -228,22 +244,22 @@ void rainbow_road(double value, float start) {
     rotateX(PI/2);
     scale(2.0);
     //road
-    fill(rainbow_r[0], 1, 1);
+    fill(rainbow_r[i_skip], 100, 100);
     rect(2, 0, 50, r_len);
-    fill(rainbow_l[0], 1, 1);
+    fill(rainbow_l[i_skip], 100, 100);
     rect(-52, 0, 50, r_len);
     for (int i = 1; i < 9; i++) {
       float spos = (i - 1) * 50 + r_len;
-      fill(rainbow_r[i], 1, 1);
-      rect(2, spos, 50, spos + 50); 
-      fill(rainbow_l[i], 1, 1);
-      rect(-52, spos, 50, spos + 50);
+      fill(rainbow_r[(i + i_skip) % 8], 100, 100);
+      rect(2, spos, 50, 50); 
+      fill(rainbow_l[(i + i_skip) % 8], 100, 100);
+      rect(-52, spos, 50, 50);
     }
     
     int minv = min(min(v1, v2), min(v3, v4));
     int maxv = max(max(v1, v2), max(v3, v4));
     int blen = delta - 16;
-    fill(0);
+    fill(center_hue, 100, 100);
     //blacks
     rect(-2, 0, 4, minv);
     rect(-2, minv + 16 , 4, blen);
@@ -251,7 +267,7 @@ void rainbow_road(double value, float start) {
     rect(-2, minv + 16 + delta * 2, 4, blen);
     rect(-2, maxv + 16, 4, rlen - (maxv + 16));
     
-    fill(255);
+    fill(0, 0, 100);
     //whites
     rect(-2, v1, 4, 16);
     rect(-2, v2, 4, 16);
