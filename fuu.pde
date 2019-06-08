@@ -65,6 +65,7 @@ void draw() {
     }
 }
 
+
 // scene name goes here
 void scene0(double time) {
   background(0, 0, 5);
@@ -84,12 +85,23 @@ void scene1(double time) {
   background(210, 90, 70);
   println(time);
   road(time);
-  buildings(time - 32); // buildings start at beat 32
+  buildings(time - 24); // buildings start at beat 32
   pole(time);
   grass(90, 90, 60);
   trafficLight((float) time);
   sign(time, "killed", 5, true);
   sign(time, "No bugs", 5, false);
+  pushMatrix();
+  translate(0, -100, -3);
+  for (int i = 0; i < 12; i++) {
+    cloud(time + 0.5 + i * 30, 50 + (int)random(0, 51), false);
+  }
+  popMatrix();
+  for (int i = 0; i < 12; i++) {
+    cloud(time + i * 30, 60 + (int)random(0, 41), false);
+  }
+  sign(time, "TEAM", 14, false);
+  sign(time, "kypertek", 14.5, true);
 }
 
 
@@ -110,7 +122,17 @@ void scene2(double time) {
   grass(90, 90, 60);
   train(t);
   trafficLight(t);
+  pushMatrix();
+  translate(0, -100, -3);
+  for (int i = 0; i < 12; i++) {
+    cloud(time + 0.5 + i * 30, 50 + (int)random(0, 51), false);
+  }
+  popMatrix();
+  for (int i = 0; i < 12; i++) {
+    cloud(time + i * 30, 60 + (int)random(0, 41), false);
+  }
 }
+
 
 void scene3(double time) {
   background(10, 10, 10);
@@ -131,6 +153,11 @@ void scene5(double time) {
   background(0, 0, 0);
   road(time);
   pole(time);
+  pushMatrix();
+  scale(0.3);
+  translate(0, 85, 1500);
+  cloud(time, 100, true);
+  popMatrix();
 }
 
 void scene6(double time) {
@@ -141,6 +168,35 @@ void scene6(double time) {
 void scene7(double time) {
   background(100, 100, 255);
   road(time);
+}
+
+void cloud(double time, int light, boolean legs)
+{
+  pushMatrix();
+  scale(3);
+  fill(0, 0, light);
+  float posX_incr = 50 * (float) time;
+  posX_incr %= width;
+  
+  float n = noise(-250+posX_incr, 50);
+  int scale = 25;
+  translate(-200, -160, -100);
+  rect(-250+posX_incr, 50+scale*n, 150, 40, 80, 80, 20, 20);
+  ellipse(-250+115+posX_incr, 50+scale*n, 50, 50);
+  ellipse(-250+35+posX_incr, 50+scale*n, 50, 50);
+  ellipse(-250+75+posX_incr, 40+scale*n, 50, 50);
+  if (legs) {
+    pushMatrix();
+    fill(0, 0, 50);
+    translate(0, 0, -5);
+    rect(-250+posX_incr + 30, 50+scale*n + 30, 8, 40);
+    rect(-250+posX_incr + 110, 50+scale*n + 30, 8, 40);
+    fill(0, 0, 70);
+    rect(-250+posX_incr + 37, 50+scale*n + 30, 8, 40);
+    rect(-250+posX_incr + 117, 50+scale*n + 30, 8, 40);
+    popMatrix();
+  }
+  popMatrix();
 }
 
 void house(double time, int offset, int side, int w, int h, int d) {
