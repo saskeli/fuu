@@ -79,7 +79,6 @@ void scene0(double time) {
 
 void scene1(double time) {
   background(210, 90, 70);
-  println(time);
   road(time);
   buildings(time - 32); // buildings start at beat 32
   pole(time);
@@ -92,10 +91,20 @@ void scene1(double time) {
 
 void scene2(double time) {
   float t = (float)time;
-  background(248, 70, 70);
-  road(320);
-  float train = (float) moonlander.getValue("train");
-  train(train, t);
+  background(210, 90, 70);
+  if(time > 47) {
+    road(time);
+    pole(time);
+    buildings(time - 32); 
+  }
+  else {
+    road(40);
+    pole(40);
+    buildings(40 - 32); 
+  }
+  buildings(40 - 32); 
+  grass(90, 90, 60);
+  train(t);
   trafficLight(t);
 }
 
@@ -304,7 +313,6 @@ void onepole(float pos, float offset) {
     popMatrix();
 }
 
-
 void sign(double time, String text, float start, boolean right) {
   int mul = right ? 1 : -1;
   int dur = 12;
@@ -328,21 +336,31 @@ void sign(double time, String text, float start, boolean right) {
   text(text, tpos, -he, depth);
 }
 
-void train(float train, float time) {
+
+void train(float time) {
+  float train = (time - 40)*8 + 1;
   int x = width * 2 + 300;
   int tCount = 8;
-  int tWidth = x/tCount - 5;
-  float trainLoc = train * (tWidth + 5);
+  float tWidth = x/tCount - 5;
+  float wWidth = tWidth/4 - 8;
+  float trainLoc = train * (tWidth + 5) + tWidth;
   pushMatrix();
   translate(-width-300, -50);
-  for(int i=0; i < 58; i++) {
+  for(int i=0; i < 52; i++) {
     float pos = trainLoc - i*(tWidth+5);
+    fill(73,0,27);
     
     if (pos > -tWidth && pos < 2*tWidth + 2*width) {
-      if(i==0)
+      if(i==0) {
         rect(pos, -40, tWidth, 80, 10, 70, 20, 10);
-      else
+      }
+      else {
         rect(pos, -40, tWidth, 80, 10);
+        fill(73,0,200);
+          
+        for(int j = 0; j < 4; j++)
+          rect(pos + j*(wWidth+7)+5, -30, wWidth, 30);
+      }
     }
   }
   popMatrix();
@@ -351,23 +369,33 @@ void train(float train, float time) {
 void trafficLight(float time) {
   if (time < 36)
     return;
+  
+  pushMatrix();
+  translate(0,-33,400);
   float beat = time;
   if (time >= 40 && time <= 47)
     time = 40;
   float beg = 36;
   float end = 40;
-  if (time > 47) {
-    beg += 7;
-    end += 7;
+  float x1, x2, y, w1, h;
+  if (time >= 47) {
+    beg = 47;
+    end = 47.5;
+    x1 = map(time, beg, end, -300, -600);
+    x2 = map(time, beg, end, 200, 400);
+    y = map(time, beg, end, -187, -300);
+    w1 = map(time, beg, end, 6, 10);
+    h = map(time, beg, end, 250, 400);
+  } else {
+    x1 = map(time, beg, end, -100, -300);
+    x2 = map(time, beg, end, 100, 200);
+    y = map(time, beg, end, 10, -187);
+    w1 = map(time, beg, end, 2, 6);
+    h = map(time, beg, end, 10, 250);
   }
-  pushMatrix();
   noStroke();
   fill(0);
-  float x1 = map(time, beg, end, -100, -300);
-  float x2 = map(time, beg, end, 100, 200);
-  float y = map(time, beg, end, 2, -220);
-  float w1 = map(time, beg, end, 2, 6);
-  float h = map(time, beg, end, 0, 250);
+  
   rect(x1, y, w1, h);
   rect(x2, y, w1, h);
   rect(x1, y, x2-x1, w1);
@@ -375,17 +403,14 @@ void trafficLight(float time) {
   float x3 = (x1+x2)*0.25;
   float y3 = y-w3/2;
   rect(x3, y3, (x2-x1)/4, w3);
-  popMatrix();
   
-  pushMatrix();
   int col = (int) map(beat, 40, 47, 0, 122);
   float x = map(beat, 40, 47.5, 0, 80);
   fill(col, 83, 92);
-  //translate(0, -103);
   if (time < 40)
     circle(x3+w3/2+2, y3+w3/2+1, w3*.8);
   else if (time < 47)
-    circle(x, -abs(cos(2*beat*PI))*117-103, 29.5);
+    circle(x, -abs(cos(2*beat*PI))*145-42, 29.5);
   else {
     fill(112, 83, 92);
     circle(x3+(x2-x1)/4-w3/2-2, y3+w3/2+1, w3*.8);
