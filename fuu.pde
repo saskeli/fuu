@@ -82,6 +82,7 @@ void scene0(double time) {
 
 void scene1(double time) {
   background(210, 90, 70);
+  println(time);
   road(time);
   buildings(time - 32); // buildings start at beat 32
   pole(time);
@@ -143,6 +144,8 @@ void scene7(double time) {
 }
 
 void house(double time, int offset, int side, int w, int h, int d) {
+  int scene = moonlander.getIntValue("scene");
+  
   int len = 400;
   int start = -50;
   int loop = 12;
@@ -158,14 +161,70 @@ void house(double time, int offset, int side, int w, int h, int d) {
   
   int xPos = side * 120;
   
-  pushMatrix();
-  scale(2);
-  translate(xPos + (side*w*bSize), (-h * bSize) / 2, v);
-  noFill();
-  stroke(0, 0, 0);
-  fill(0, 0, 50);
-  box(w * bSize, h * bSize, d * bSize);
-  popMatrix();
+  if (scene == 4) {
+    int style = moonlander.getIntValue("house-style");
+    pushMatrix();
+    noStroke();
+    // translate(xPos + (side*w*bSize), (-h * bSize) / 2, v);
+    translate(xPos + (side * 100), 0, 1.7 * v);
+    
+    scale(bSize);
+    
+    for (int i=0; i < 100; i += 10) {
+      for (int j=0; j < 300; j += 10) {
+        pushMatrix();
+        if (side == 1) {
+          translate(i, -j, 0);
+        } else {
+          translate(-i, -j, 0);
+        }
+        float b = (float) (2*time) % 10;
+        int beatIdx = i / 10;
+        if (style == 0) {
+          if (beatIdx < b) { //&& b <= beatIdx + 10) {
+            box(10, 10, (noise(i, j, (float) (2*time)) * 60) + 40);
+          } else {
+            box(10, 10, 100);
+          }
+        } else if (style == 1) {
+          int longerB = (int) ((2*time) % 40) -20;
+          int sumIdx = (i+j) / 10;
+          if (sumIdx < longerB) { //&& b <= beatIdx + 10) {
+            box(10, 10, (noise(i, j, (float) (2*time)) * 60) + 40);
+          } else if (36 - sumIdx < longerB) {
+            box(10, 10, (noise(i, j, (float) (2*time)) * 60) + 40);
+          } else {
+            box(10, 10, 100);
+          }
+        } else if (style == 2) {
+          double houseRotation = moonlander.getValue("rotation");
+          float lambda = noise(i,j);
+          rotateX((float) houseRotation * lambda);
+          rotateY((float) houseRotation * (1-lambda));
+          rotateZ((float) houseRotation * (1-lambda));
+          box(8, 8, (noise(i, j, (float) (2*time)) * 60) + 40);
+        } else {
+          // default to lines (style 0)
+          if (beatIdx < b) { //&& b <= beatIdx + 10) {
+            box(10, 10, (noise(i, j, (float) (2*time)) * 60) + 40);
+          } else {
+            box(10, 10, 100);
+          } 
+        }
+        popMatrix();
+      }
+    }
+    popMatrix();
+  } else {
+    pushMatrix();
+    strokeWeight(1);
+    scale(2);
+    translate(xPos + (side*w*bSize), (-h * bSize) / 2, v);
+    stroke(0, 0, 0);
+    fill(0, 0, 50);
+    box(w * bSize, h * bSize, d * bSize);
+    popMatrix();
+  }
 }
 
 void buildings(double time) {
