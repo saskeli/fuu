@@ -30,6 +30,7 @@ void draw() {
     int voff = (v + 150) % 300;
     pushMatrix();
     noStroke();
+    noCursor();
     fill(0);
     rotateX(PI/2);
     scale(3.0);
