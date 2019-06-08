@@ -23,7 +23,7 @@ void draw() {
     
     moonlander.update();
     translate(width/2, height/2, 0);
-    translate(0, 50, -450);
+    translate(-35, 30, -420);
     double time = moonlander.getValue("Ouroboros.mp3");
     int scene = moonlander.getIntValue("scene");
     switch(scene) {
@@ -172,7 +172,7 @@ void onepole(float pos, float offset) {
     popMatrix();
     pushMatrix();
     fill(255);
-    translate(- (bs / 2 - 2 * bs / 3), -pos/4, 0);
+    translate(- (4 *  bs / 6), -(pos/4 - 2), 0);
     sphere(2);
     popMatrix();
     popMatrix();
