@@ -30,6 +30,21 @@ void draw() {
     double value = moonlander.getValue("Ouroboros.mp3");
     road(value);
     pole(value);
+    grass(0, 150, 0);
+}
+
+void grass(int r, int g, int b) {
+    int w = 400;
+    int offset = 52; 
+    pushMatrix();
+    noStroke();
+    fill(0);
+    rotateX(PI/2);
+    scale(2.0);
+    fill(r, g, b);
+    rect(offset, 0, w, 800);
+    rect(-(w + offset), 0, w, 800);
+    popMatrix();
 }
 
 void pole(double value) {
@@ -37,34 +52,25 @@ void pole(double value) {
     float p2 = p1 + 400;
     float p3 = p1 + 200;
     float p4 = (p3 + 400) % 800;
-    println(p4 + " " + p2 + " " + p3 + " " + p1);
-    pushMatrix();
+    int offset = 130;
+    onepole(p1, offset);
+    onepole(p2, offset);
+    onepole(p3, -offset);
+    onepole(p4, -offset);
+    
+}
+
+void onepole(float pos, float offset) {
+    int bs = offset > 0 ? 12 : -12; 
     fill(0);
-    translate(140, -p1 / 4, p1);
-    box(3, p1 / 2, 3);
-    popMatrix();
     pushMatrix();
-    translate(140, -p2 / 4, p2);
-    box(3, p2 / 2, 3);
-    popMatrix();
+    translate(offset, -pos / 4, pos);
+    box(3, pos / 2, 3);
     pushMatrix();
-    translate(-140, -p3 / 4, p3);
-    box(3, p3 / 2, 3);
+    translate(- bs/2, -pos / 4, 0); 
+    box(bs, 3, 3);
     popMatrix();
-    pushMatrix();
-    translate(-140, -p4 / 4, p4);
-    box(3, p4 / 2, 3);
     popMatrix();
-    PShape part = createShape();
-    part.beginShape(QUAD);
-    part.noStroke();
-    part.texture(sprite);
-    part.normal(0, 0, 1);
-    part.vertex(-partSize/2, -partSize/2, 0, 0);
-    part.vertex(+partSize/2, -partSize/2, sprite.width, 0);
-    part.vertex(+partSize/2, +partSize/2, sprite.width, sprite.height);
-    part.vertex(-partSize/2, +partSize/2, 0, sprite.height);
-    part.endShape();
 }
 
 void road(double value) {
