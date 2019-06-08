@@ -8,6 +8,9 @@ Moonlander moonlander;
 PFont font;
 int BPM = 107;
 
+int[] rainbow_l = new int[9];
+int[] rainbow_r = new int[9];
+
 void setup() {
     frameRate(60);
     size(720, 480, P3D);
@@ -16,6 +19,11 @@ void setup() {
     colorMode(HSB, 360, 100, 100);
     
     font = createFont("FiraCode-Medium.ttf", 200);
+    
+    for (int i = 0; i < 9; i++) {
+      rainbow_l[i] = (int)random(0, 361);
+      rainbow_r[i] = (int)random(0, 361);
+    }
     
     moonlander = Moonlander.initWithSoundtrack(this, "Ouroboros.mp3", BPM, 4);
 
@@ -56,13 +64,17 @@ void draw() {
 
 // scene name goes here
 void scene0(double time) {
-  background(0, 0, 0);
+  background(0, 0, 5);
   road(time);
   // buildings(time);
   pole(time);
   grass(0, 0, 0);
-  sign(time, "MOI!", 0.5, true);
-  sign(time, "Mitä kuuluu?", 3, false);
+  sign(time, "Straight into", -1.5, false);
+  sign(time, "production", -1.5, true);
+  sign(time, "Vegan", 2, false);
+  sign(time, "demo", 2.5, true);
+  sign(time, "killed", 5, true);
+  sign(time, "No bugs", 5, false);
 }
 
 void scene1(double time) {
@@ -73,6 +85,8 @@ void scene1(double time) {
   pole(time);
   grass(90, 90, 60);
   trafficLight((float) time);
+  sign(time, "killed", 5, true);
+  sign(time, "No bugs", 5, false);
 }
 
 
@@ -87,7 +101,7 @@ void scene2(double time) {
 
 void scene3(double time) {
   background(10, 10, 10);
-  road(time);
+  rainbow_road(time, 48);
   trafficLight((float)time);
 }
 
@@ -168,12 +182,59 @@ void road(double value) {
     scale(2.0);
     //road
     rect(2, 0, 50, rlen);
+    fill(1);
     rect(-52, 0, 50, rlen);
     
     int minv = min(min(v1, v2), min(v3, v4));
     int maxv = max(max(v1, v2), max(v3, v4));
     int blen = delta - 16;
     
+    //blacks
+    rect(-2, 0, 4, minv);
+    rect(-2, minv + 16 , 4, blen);
+    rect(-2, minv + 16 + delta, 4, blen);
+    rect(-2, minv + 16 + delta * 2, 4, blen);
+    rect(-2, maxv + 16, 4, rlen - (maxv + 16));
+    
+    fill(255);
+    //whites
+    rect(-2, v1, 4, 16);
+    rect(-2, v2, 4, 16);
+    rect(-2, v3, 4, 16);
+    rect(-2, v4, 4, 16);
+    
+    popMatrix();
+}
+
+void rainbow_road(double value, float start) {
+    int rlen = 400;
+    int delta = rlen / 4;
+    int v1 = (int)map((float)(value - (int)value), 0.0, 1.0, 0.0, rlen);
+    int v2 = (v1 + 100) % rlen;
+    int v3 = (v1 + 200) % rlen;
+    int v4 = (v1 + 300) % rlen;
+    float r_len = map((float)value % 1, 0, 1, 0, 50);
+    pushMatrix();
+    noStroke();
+    rotateX(PI/2);
+    scale(2.0);
+    //road
+    fill(rainbow_r[0], 1, 1);
+    rect(2, 0, 50, r_len);
+    fill(rainbow_l[0], 1, 1);
+    rect(-52, 0, 50, r_len);
+    for (int i = 1; i < 9; i++) {
+      float spos = (i - 1) * 50 + r_len;
+      fill(rainbow_r[i], 1, 1);
+      rect(2, spos, 50, spos + 50); 
+      fill(rainbow_l[i], 1, 1);
+      rect(-52, spos, 50, spos + 50);
+    }
+    
+    int minv = min(min(v1, v2), min(v3, v4));
+    int maxv = max(max(v1, v2), max(v3, v4));
+    int blen = delta - 16;
+    fill(0);
     //blacks
     rect(-2, 0, 4, minv);
     rect(-2, minv + 16 , 4, blen);
